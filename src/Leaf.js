@@ -58,7 +58,7 @@ hijos.Leaf = function() {};
 
 Call before your application code looses its last reference to the object.
 Generally this will be called for you by the destroy method of the containing
-node object.
+node object unless this object is not contained by a node.
 
 */
 hijos.Leaf.prototype.destroy = function() {
@@ -72,7 +72,7 @@ hijos.Leaf.prototype.destroy = function() {
 
 @property hijos.mixinLeaf
 
-@parameter obj The object to become a leaf.
+@parameter obj {object} The object to become a leaf.
 
 @description
 
