@@ -29,8 +29,8 @@ hijos.mixinNode(app.MultiControlsView.prototype);
 app.MultiControlsView.prototype.disable = function() {
     // this.childNodes is a real JavaScript array
     this.childNodes.forEach(function(child) {
-		child.disable();
-	});
+        child.disable();
+    });
 };
 
 // ----
