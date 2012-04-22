@@ -24,10 +24,43 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// a parent-aware component for the composite design pattern
-//
+/**
+
+@property hijos.Leaf
+
+@description
+
+A constructor function for creating leaf objects to be used as part
+of the composite design pattern.
+
+Leaf objects have three read-only properties describing the Leaf's
+relationships to other objects participating in the composite pattern.
+
+    1. parentNode
+    2. previousSibling
+    3. nextSibling
+
+These properties may be undefined or null when the leaf is not a child
+of a node object. To attach a leaf to a node, use the node's child
+manipulation methods: appendChild, insertBefore, replaceChild.
+To remove a leaf from a node use the node's removeChild method.
+
+var leaf = new hijos.Leaf();
+
+*/
 hijos.Leaf = function() {};
 
+/**
+
+@property hijos.Leaf.prototype.destroy
+
+@description
+
+Call before your application code looses its last reference to the object.
+Generally this will be called for you by the destroy method of the containing
+node object.
+
+*/
 hijos.Leaf.prototype.destroy = function() {
     // Deleting references to relations may help garbage collection.
     delete this.parentNode;
@@ -35,8 +68,20 @@ hijos.Leaf.prototype.destroy = function() {
     delete this.previousSibling;
 };
 
-// consider parentNode, nextSibling, previousSibling read only.
+/**
 
+@property hijos.mixinLeaf
+
+@parameter obj The object to become a leaf.
+
+@description
+
+Mixes in the leaf methods into any object.
+
+var o = {};
+hijos.mixinLeaf(o);
+
+*/
 hijos.mixinLeaf = function(obj) {
     obj.destroy = hijos.Leaf.prototype.destroy;
 };
