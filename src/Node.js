@@ -24,12 +24,48 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// an ordered composite for the composite design pattern
-//
-hijos.Node = function() {};
+/**
+
+@property hijos.Node
+
+@description
+
+A constructor function for creating node objects with ordered children
+to be used as part of the composite design pattern.
+
+Node objects have three read-only properties describing the node's
+relationships to other objects participating in the composite pattern.
+
+    1. childNodes
+    2. firstChild
+    3. lastChild
+
+The firstChild and lastChild properties will be undefined or null when
+the node has no children. Do not mutate the elements of the childNodes
+array directly. Instead use the appendChild, insertBefore, replaceChild,
+and removeChild methods to manage the children.
+
+var node = new hijos.Node();
+
+*/
+hijos.Node = function() {
+    hijos.Leaf.call(this);
+    this.childNodes = [];
+};
 
 hijos.mixinLeaf(hijos.Node.prototype);
 
+/**
+
+@property hijos.Node.prototype.destroy
+
+@description
+
+Call before your application code looses its last reference to the object.
+Generally this will be called for you by the destroy method of the containing
+node object unless this object is not contained by another node.
+
+*/
 hijos.Node.prototype.destroy = function() {
     if (Object.prototype.hasOwnProperty.call(this, 'childNodes')) {
         // copy in case one of the destroy methods modifies this.childNodes
@@ -41,6 +77,15 @@ hijos.Node.prototype.destroy = function() {
     hijos.Leaf.prototype.destroy.call(this);
 };
 
+/**
+
+@property hijos.Node.prototype.hasChildNodes
+
+@description
+
+Returns true if this node has children. Otherwise returns false.
+
+*/
 hijos.Node.prototype.hasChildNodes = function() {
     return Object.prototype.hasOwnProperty.call(this, 'childNodes') &&
            (this.childNodes.length > 0);
@@ -58,6 +103,25 @@ hijos.Node.prototype.hasChildNodes = function() {
         return false;
     };
 
+/**
+
+@property hijos.Node.prototype.appendChild
+
+@parameter newChild {object} The leaf or node object to append.
+
+@description
+
+Adds newChild as the last child of this node. If newChild is a child of
+another node then newChild is removed from that other node before appending
+to this node.
+
+var parent = new hijos.Node();
+var child = new hijos.Leaf();
+parent.appendChild(child);
+var child = new hijos.Node();
+parent.appendChild(child);
+
+*/
     hijos.Node.prototype.appendChild = function(newChild) {
         if (arguments.length < 1) {
             throw new Error('hijos.Node.prototype.appendChild: not enough arguments.');
@@ -87,6 +151,27 @@ hijos.Node.prototype.hasChildNodes = function() {
         newChild.nextSibling = null;
     };
 
+/**
+
+@property hijos.Node.prototype.insertBefore
+
+@parameter newChild {object} The leaf or node object to insert.
+
+@parameter oldChild {object|null} The child object to insert before.
+
+@description
+
+Inserts newChild before oldChild. If oldChild is null then this is equivalent
+to appending newChild. If newChild is a child of another node then newChild is
+removed from that other node before appending to this node.
+
+var parent = new hijos.Node();
+var child0 = new hijos.Leaf();
+parent.insertBefore(child0, null);
+var child1 = new hijos.Node();
+parent.insertBefore(child1, child0);
+
+*/
     hijos.Node.prototype.insertBefore = function(newChild, oldChild) {
         if (arguments.length < 2) {
             throw new Error('hijos.Node.prototype.insertBefore: not enough arguments.');
@@ -139,6 +224,26 @@ hijos.Node.prototype.hasChildNodes = function() {
         }
     };
 
+/**
+
+@property hijos.Node.prototype.replaceChild
+
+@parameter newChild {object} The leaf or node object to insert.
+
+@parameter oldChild {object} The child object to remove and replace.
+
+@description
+
+Replaces oldChild with newChild. If newChild is a child of another node
+then newChild is removed from that other node before appending to this node.
+
+var parent = new hijos.Node();
+var child0 = new hijos.Leaf();
+parent.appendChild(child0);
+var child1 = new hijos.Node();
+parent.replaceChild(child1, child0);
+
+*/
     hijos.Node.prototype.replaceChild = function(newChild, oldChild) {
         if (arguments.length < 2) {
             throw new Error('hijos.Node.prototype.replaceChild: not enough arguments.');
@@ -188,6 +293,22 @@ hijos.Node.prototype.hasChildNodes = function() {
 
 }());
 
+/**
+
+@property hijos.Node.prototype.removeChild
+
+@parameter oldChild {object} The child object to remove.
+
+@description
+
+Removes oldChild.
+
+var parent = new hijos.Node();
+var child = new hijos.Leaf();
+parent.appendChild(child);
+parent.removeChild(child);
+
+*/
 hijos.Node.prototype.removeChild = function(oldChild) {
     if (arguments.length < 1) {
         throw new Error('hijos.Node.prototype.removeChild: not enough arguments.');
@@ -217,6 +338,23 @@ hijos.Node.prototype.removeChild = function(oldChild) {
     throw new Error('hijos.Node.prototype.removeChild: node not found.');
 };
 
+/**
+
+@property hijos.mixinNode
+
+@parameter obj {object} The object to become a node.
+
+@description
+
+Mixes in the node methods into any object. Be sure to call the hijos.Node
+constructor to initialize the node's properties.
+
+app.MyView = function() {
+    hijos.Node.call(this);
+};
+hijos.mixinNode(app.MyView.prototype);
+
+*/
 hijos.mixinNode = function(obj) {
     for (var p in hijos.Node.prototype) {
         if (Object.prototype.hasOwnProperty.call(hijos.Node.prototype, p) &&
