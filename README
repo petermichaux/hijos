@@ -1,1 +1,60 @@
 Composite design pattern mixins for building tree structures.
+
+For example, the composite design pattern is used in the view layer
+as one of the three fundamental design patterns of an MVC application.
+
+// ----
+
+app.SimpleControlView = function() {
+    hijos.Leaf.call(this);
+    this.buttonEl = document.createElement('button');
+};
+
+hijos.mixinLeaf(app.SimpleControlView.prototype);
+
+app.SimpleControlView.prototype.disable = function() {
+    this.buttonEl.disabled = true;
+};
+
+// ---
+
+app.MultiControlsView = function() {
+    hijos.Node.call(this);
+};
+
+// mixin the appendChild, insertBefore, replaceChild,
+// and removeChild methods
+hijos.mixinNode(app.MultiControlsView.prototype);
+
+app.MultiControlsView.prototype.disable = function() {
+    // this.childNodes is a real JavaScript array
+    this.childNodes.forEach(function(child) {
+		child.disable();
+	});
+};
+
+// ----
+
+var multi = new app.MultiControlsView();
+multi.appendChild(new app.SimpleControlView());
+multi.appendChild(new app.MultiControlsView());
+multi.disable(); // disables the entire tree with one call!
+
+// You can work with a tree using the same functions that you use to work
+// with a tree of DOM elements because hijos node and leaf objects implement
+// the same interface as the DOM elements. For example, Crockford's walkTheDom:
+
+function walkTheDOM(node, func) {
+    func(node);
+    node = node.firstChild;
+    while (node) {
+        walkTheDOM(node, func);
+        node = node.nextSibling;
+    }
+}
+
+var nodeCount = 0;
+walkTheDOM(multi, function() {
+    nodeCount++;
+});
+alert('There are ' + nodeCount + ' nodes in the tree.');
