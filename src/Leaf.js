@@ -30,25 +30,30 @@
 
 @description
 
-A constructor function for creating leaf objects to be used as part
+A constructor function for creating Leaf objects to be used as part
 of the composite design pattern.
 
-Leaf objects have three read-only properties describing the Leaf's
-relationships to other objects participating in the composite pattern.
+Leaf objects have three read-only properties describing the Leaf object's
+relationships to other Leaf and Node objects participating in
+the composite pattern.
 
     1. parentNode
     2. previousSibling
     3. nextSibling
 
-These properties may be undefined or null when the leaf is not a child
-of a node object. To attach a leaf to a node, use the node's child
+These properties will be null when the Leaf is not a child
+of a Node object. To attach a Leaf to a Node, use the Node's child
 manipulation methods: appendChild, insertBefore, replaceChild.
-To remove a leaf from a node use the node's removeChild method.
+To remove a Leaf from a Node use the Node's removeChild method.
 
 var leaf = new hijos.Leaf();
 
 */
-hijos.Leaf = function() {};
+hijos.Leaf = function() {
+    this.parentNode = null;
+    this.previousSibling = null;
+    this.nextSibling = null;
+};
 
 /**
 
@@ -58,28 +63,31 @@ hijos.Leaf = function() {};
 
 Call before your application code looses its last reference to the object.
 Generally this will be called for you by the destroy method of the containing
-node object unless this object is not contained by a node.
+Node object unless this Leaf object is not contained by a Node.
 
 */
 hijos.Leaf.prototype.destroy = function() {
-    // Deleting references to relations may help garbage collection.
-    delete this.parentNode;
-    delete this.nextSibling;
-    delete this.previousSibling;
+    // Loosing references to relations may help garbage collection.
+    this.parentNode = null;
+    this.previousSibling = null;
+    this.nextSibling = null;
 };
 
 /**
 
 @property hijos.mixinLeaf
 
-@parameter obj {object} The object to become a leaf.
+@parameter obj {object} The object to become a Leaf.
 
 @description
 
-Mixes in the leaf methods into any object.
+Mixes in the Leaf methods into any object. Be sure to call the hijos.Leaf
+constructor to initialize the Leaf's properties.
 
-var o = {};
-hijos.mixinLeaf(o);
+app.MyView = function() {
+    hijos.Leaf.call(this);
+};
+hijos.mixinLeaf(app.MyView.prototype);
 
 */
 hijos.mixinLeaf = function(obj) {
