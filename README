@@ -10,7 +10,7 @@ app.SimpleControlView = function() {
     this.buttonEl = document.createElement('button');
 };
 
-hijos.mixinLeaf(app.SimpleControlView.prototype);
+hijos.Leaf.mixin(app.SimpleControlView.prototype);
 
 app.SimpleControlView.prototype.disable = function() {
     this.buttonEl.disabled = true;
@@ -24,7 +24,7 @@ app.MultiControlsView = function() {
 
 // mixin the appendChild, insertBefore, replaceChild,
 // and removeChild methods
-hijos.mixinNode(app.MultiControlsView.prototype);
+hijos.Node.mixin(app.MultiControlsView.prototype);
 
 app.MultiControlsView.prototype.disable = function() {
     // this.childNodes is a real JavaScript array

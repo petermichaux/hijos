@@ -15,9 +15,9 @@
             assert.same('function', typeof leaf.destroy);
         },
 
-        "test mixinLeaf adds destroy method": function() {
+        "test Leaf.mixin adds destroy method": function() {
             var obj = {};
-            hijos.mixinLeaf(obj);
+            hijos.Leaf.mixin(obj);
             assert.same('function', typeof obj.destroy);
         }
 

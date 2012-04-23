@@ -23,9 +23,9 @@
             assert.same('function', typeof node.removeChild);
         },
 
-        "test mixinNode adds required methods": function() {
+        "test Node.mixin adds required methods": function() {
             var obj = {}
-            hijos.mixinNode(obj);
+            hijos.Node.mixin(obj);
             assert.same('function', typeof obj.destroy);
             assert.same('function', typeof obj.hasChildNodes);
             assert.same('function', typeof obj.insertBefore);
