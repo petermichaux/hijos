@@ -165,15 +165,15 @@ parent.insertBefore(child1, child0);
             parent.removeChild(newChild);
         }
         // add to this composite
-        children.splice(indexOfOldChild, 0, newChild);
+        children.splice(indexForNewChild, 0, newChild);
         this.firstChild = children[0];
         this.lastChild = children[children.length - 1];
         newChild.parentNode = this;
-        var previousSibling = newChild.previousSibling = children[indexOfOldChild - 1];
+        var previousSibling = newChild.previousSibling = (children[indexForNewChild - 1] || null);
         if (previousSibling) {
             previousSibling.nextSibling = newChild;
         }
-        var nextSibling = newChild.nextSibling = children[indexOfOldChild + 1];
+        var nextSibling = newChild.nextSibling = (children[indexForNewChild + 1] || null);
         if (nextSibling) {
             nextSibling.previousSibling = newChild;
         }
@@ -278,8 +278,8 @@ hijos.Node.prototype.removeChild = function(oldChild) {
             oldChild.previousSibling = null;
             oldChild.nextSibling = null;
             children.splice(i, 1);
-            this.firstChild = children[0];
-            this.lastChild = children[children.length - 1];
+            this.firstChild = children[0] || null;
+            this.lastChild = children[children.length - 1] || null;
             return; // stop looking
         }
     }
