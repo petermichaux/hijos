@@ -1,5 +1,7 @@
 Composite design pattern mixins for building tree structures.
 
+Hijos has no dependencies.
+
 For example, the composite design pattern is used in the view layer
 as one of the three fundamental design patterns of an MVC application.
 
@@ -58,3 +60,4 @@ walkTheDOM(multi, function() {
     nodeCount++;
 });
 alert('There are ' + nodeCount + ' nodes in the tree.');
+
