@@ -32,6 +32,13 @@
             assert.same('function', typeof obj.appendChild);
             assert.same('function', typeof obj.replaceChild);
             assert.same('function', typeof obj.removeChild);
+            assert.isArray(obj.childNodes);
+            assert.same(0, obj.childNodes.length);
+            assert.same(null, obj.firstChild);
+            assert.same(null, obj.lastChild);
+            assert.same(null, obj.parentNode);
+            assert.same(null, obj.previousSibling);
+            assert.same(null, obj.nextSibling);
         },
 
         "test appendChild on empty Node": function() { // also tests insertBefore with oldChild = null
