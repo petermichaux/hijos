@@ -15,10 +15,13 @@
             assert.same('function', typeof leaf.destroy);
         },
 
-        "test Leaf.mixin adds destroy method": function() {
+        "test Leaf.mixin adds destroy method and null props": function() {
             var obj = {};
             hijos.Leaf.mixin(obj);
             assert.same('function', typeof obj.destroy);
+            assert.same(null, obj.parentNode);
+            assert.same(null, obj.previousSibling);
+            assert.same(null, obj.nextSibling);
         }
 
     });
