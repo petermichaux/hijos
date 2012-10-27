@@ -1,1 +1,1 @@
-var hijos = hijos || {};
+var hijos = {};
