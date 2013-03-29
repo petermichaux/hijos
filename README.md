@@ -76,7 +76,7 @@ See http://peter.michaux.ca/downloads/hijos/ for production ready builds.
 Status
 ------
 
-Ready.
+Stable.
 
 
 Browser Support
