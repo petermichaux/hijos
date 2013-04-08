@@ -21,7 +21,14 @@ hijos.Node = function() {
     this.lastChild = null;
 };
 
-hijos.Leaf.mixin(hijos.Node.prototype);
+// Inherit from hijos.Leaf. Not all browsers have Object.create
+// so write out the equivalent inline.
+hijos.Node.prototype = (function() {
+    function F()
+    F.prototype = hijos.Leaf.prototype;
+    return new F();
+}());
+hijos.Node.prototype.constructor = hijos.Node;
 
 /**
 
