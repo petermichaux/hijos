@@ -1,32 +1,17 @@
 /**
 
-@property hijos.Node
-
-@description
-
-A constructor function for creating Node objects with ordered children
+A constructor function for creating `Node` objects with ordered children
 to be used as part of the composite design pattern.
 
-Node objects have six read-only properties describing the Node's
-relationships to other Leaf and Node objects participating in
-the composite pattern.
-
-    1. childNodes
-    2. firstChild
-    3. lastChild
-    4. parentNode
-    5. previousSibling
-    6. nextSibling
-
-The firstChild and lastChild properties will be null when the Node has
-no children. Do not mutate the elements of the childNodes array directly.
-Instead use the appendChild, insertBefore, replaceChild, and removeChild
+Do not mutate the elements of the `childNodes` array directly.
+Instead use the `appendChild`, `insertBefore`, `replaceChild`, and `removeChild`
 methods to manage the children.
 
-The parentNode, previousSibling, and nextSibling properties will be null
-when the Node object is not a child of another Node object.
+    var node = new hijos.Node();
 
-var node = new hijos.Node();
+@constructor
+
+@extends hijos.Leaf
 
 */
 hijos.Node = function() {
@@ -40,13 +25,48 @@ hijos.Leaf.mixin(hijos.Node.prototype);
 
 /**
 
-@property hijos.Node.prototype.destroy
+The array of child objects.
 
-@description
+@member hijos.Node.prototype.childNodes
+
+@type {Array}
+
+@readonly
+
+*/
+
+/**
+
+The first child of this object. Null if this object has no children.
+
+@member hijos.Node.prototype.firstChild
+
+@type {hijos.Leaf}
+
+@readonly
+
+*/
+
+/**
+
+The last child of this object. Null if this object has no children.
+
+@member hijos.Node.prototype.lastChild
+
+@type {hijos.Leaf}
+
+@readonly
+
+*/
+
+
+/**
 
 Call before your application code looses its last reference to the object.
 Generally this will be called for you by the destroy method of the containing
-Node object unless this object is not contained by another Node.
+`Node` object unless this object is not contained by another `Node`.
+
+@override
 
 */
 hijos.Node.prototype.destroy = function() {
@@ -64,11 +84,9 @@ hijos.Node.prototype.destroy = function() {
 
 /**
 
-@property hijos.Node.prototype.hasChildNodes
+Does this `Node` have any children?
 
-@description
-
-Returns true if this Node has children. Otherwise returns false.
+@return {boolean} `true` if this `Node` has children. Otherwise `false`.
 
 */
 hijos.Node.prototype.hasChildNodes = function() {
@@ -77,23 +95,19 @@ hijos.Node.prototype.hasChildNodes = function() {
 
 /**
 
-@property hijos.Node.prototype.insertBefore
+Inserts `newChild` before `oldChild`. If `oldChild` is `null` then this is equivalent
+to appending `newChild`. If `newChild` is a child of another `Node` then `newChild` is
+removed from that other `Node` before appending to this `Node`.
 
-@parameter newChild {object} The Leaf or Node object to insert.
+    var parent = new hijos.Node();
+    var child0 = new hijos.Leaf();
+    parent.insertBefore(child0, null);
+    var child1 = new hijos.Node();
+    parent.insertBefore(child1, child0);
 
-@parameter oldChild {object|null} The child object to insert before.
+@param {Object} newChild The Leaf or Node object to insert.
 
-@description
-
-Inserts newChild before oldChild. If oldChild is null then this is equivalent
-to appending newChild. If newChild is a child of another Node then newChild is
-removed from that other Node before appending to this Node.
-
-var parent = new hijos.Node();
-var child0 = new hijos.Leaf();
-parent.insertBefore(child0, null);
-var child1 = new hijos.Node();
-parent.insertBefore(child1, child0);
+@param {(Object|null)} [oldChild] The child object to insert before.
 
 */
 hijos.Node.prototype.insertBefore = function(newChild, oldChild) {
@@ -159,21 +173,17 @@ hijos.Node.prototype.insertBefore = function(newChild, oldChild) {
 
 /**
 
-@property hijos.Node.prototype.appendChild
+Adds `newChild` as the last child of this `Node`. If `newChild` is a child of
+another `Node` then `newChild` is removed from that other `Node` before appending
+to this `Node`.
 
-@parameter newChild {object} The Leaf or Node object to append.
+    var parent = new hijos.Node();
+    var child = new hijos.Leaf();
+    parent.appendChild(child);
+    var child = new hijos.Node();
+    parent.appendChild(child);
 
-@description
-
-Adds newChild as the last child of this Node. If newChild is a child of
-another Node then newChild is removed from that other Node before appending
-to this Node.
-
-var parent = new hijos.Node();
-var child = new hijos.Leaf();
-parent.appendChild(child);
-var child = new hijos.Node();
-parent.appendChild(child);
+@param {Object} newChild The Leaf or Node object to append.
 
 */
 hijos.Node.prototype.appendChild = function(newChild) {
@@ -185,22 +195,18 @@ hijos.Node.prototype.appendChild = function(newChild) {
 
 /**
 
-@property hijos.Node.prototype.replaceChild
+Replaces `oldChild` with `newChild`. If `newChild` is a child of another `Node`
+then `newChild` is removed from that other `Node` before appending to this `Node`.
 
-@parameter newChild {object} The Leaf or Node object to insert.
+    var parent = new hijos.Node();
+    var child0 = new hijos.Leaf();
+    parent.appendChild(child0);
+    var child1 = new hijos.Node();
+    parent.replaceChild(child1, child0);
 
-@parameter oldChild {object} The child object to remove/replace.
+@param {Object} newChild The Leaf or Node object to insert.
 
-@description
-
-Replaces oldChild with newChild. If newChild is a child of another Node
-then newChild is removed from that other Node before appending to this Node.
-
-var parent = new hijos.Node();
-var child0 = new hijos.Leaf();
-parent.appendChild(child0);
-var child1 = new hijos.Node();
-parent.replaceChild(child1, child0);
+@param {Object} oldChild The child object to remove/replace.
 
 */
 hijos.Node.prototype.replaceChild = function(newChild, oldChild) {
@@ -221,18 +227,14 @@ hijos.Node.prototype.replaceChild = function(newChild, oldChild) {
 
 /**
 
-@property hijos.Node.prototype.removeChild
+Removes `oldChild`.
 
-@parameter oldChild {object} The child object to remove.
+    var parent = new hijos.Node();
+    var child = new hijos.Leaf();
+    parent.appendChild(child);
+    parent.removeChild(child);
 
-@description
-
-Removes oldChild.
-
-var parent = new hijos.Node();
-var child = new hijos.Leaf();
-parent.appendChild(child);
-parent.removeChild(child);
+@param {Object} oldChild The child object to remove.
 
 */
 hijos.Node.prototype.removeChild = function(oldChild) {
@@ -267,25 +269,21 @@ hijos.Node.call(hijos.Node.prototype);
 
 /**
 
-@property hijos.Node.mixin
-
-@parameter obj {object} The object to become a Node.
-
-@description
-
 Mixes in the Node methods into any object.
 
-// Example 1
+Example 1
 
-app.MyView = function() {
-    hijos.Node.call(this);
-};
-hijos.Node.mixin(app.MyView.prototype);
+    app.MyView = function() {
+        hijos.Node.call(this);
+    };
+    hijos.Node.mixin(app.MyView.prototype);
 
-// Example 2
+Example 2
 
-var obj = {};
-hijos.Node.mixin(obj);
+    var obj = {};
+    hijos.Node.mixin(obj);
+
+@param {Object} obj The object to become a `Node`.
 
 */
 hijos.Node.mixin = function(obj) {
