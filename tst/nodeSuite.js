@@ -84,6 +84,40 @@
             assert.same(null, child1.nextSibling);
         },
 
+        "test appendChild to move a node within the same parent": function() {
+            var parent = new hijos.Node();
+            var child0 = new hijos.Node();
+            parent.appendChild(child0);
+            var child1 = new hijos.Node();
+            parent.appendChild(child1);
+
+            assert.same(2, parent.childNodes.length);
+            assert.same(child0, parent.childNodes[0]);
+            assert.same(child1, parent.childNodes[1]);
+            assert.same(child0, parent.firstChild);
+            assert.same(child1, parent.lastChild);
+            assert.same(parent, child0.parentNode);
+            assert.same(parent, child1.parentNode);
+            assert.same(null, child0.previousSibling);
+            assert.same(child1, child0.nextSibling);
+            assert.same(child0, child1.previousSibling);
+            assert.same(null, child1.nextSibling);
+
+            parent.appendChild(child0); // swaps the order of the child nodes
+
+            assert.same(2, parent.childNodes.length);
+            assert.same(child1, parent.childNodes[0]);
+            assert.same(child0, parent.childNodes[1]);
+            assert.same(child1, parent.firstChild);
+            assert.same(child0, parent.lastChild);
+            assert.same(parent, child0.parentNode);
+            assert.same(parent, child1.parentNode);
+            assert.same(null, child1.previousSibling);
+            assert.same(child0, child1.nextSibling);
+            assert.same(child1, child0.previousSibling);
+            assert.same(null, child0.nextSibling);
+        },
+
         "test insertBefore on non empty Node": function() {
             var parent = new hijos.Node();
             var child0 = new hijos.Node();
