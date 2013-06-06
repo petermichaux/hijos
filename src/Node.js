@@ -21,6 +21,11 @@ hijos.Node = function() {
     this.lastChild = null;
 };
 
+/**
+
+@property hijos.Node.superConstructor
+
+*/
 hijos.Node.superConstructor = hijos.Leaf;
 
 // Inherit from hijos.Leaf. Not all browsers have Object.create

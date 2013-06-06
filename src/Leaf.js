@@ -18,6 +18,11 @@ hijos.Leaf = function() {
     this.nextSibling = null;
 };
 
+/**
+
+@property hijos.Leaf.superConstructor
+
+*/
 hijos.Leaf.superConstructor = Object;
 
 /**
