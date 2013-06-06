@@ -18,6 +18,8 @@ hijos.Leaf = function() {
     this.nextSibling = null;
 };
 
+hijos.Leaf.superConstructor = Object;
+
 /**
 
 The parent `Node` of this object. Null if this object is not the child of

@@ -2,6 +2,10 @@
 
     buster.testCase('nodeSuite', {
 
+        "test Node has superConstructor Leaf": function() {
+            assert.same(hijos.Leaf, hijos.Node.superConstructor);
+        },
+
         "test node starts with null relationships": function() {
             var node = new hijos.Node();
             assert.same(0, node.childNodes.length);
