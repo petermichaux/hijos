@@ -15,7 +15,7 @@ methods to manage the children.
 
 */
 hijos.Node = function() {
-    hijos.Leaf.call(this);
+    hijos.Node.superConstructor.call(this);
     this.childNodes = [];
     this.firstChild = null;
     this.lastChild = null;
@@ -32,7 +32,7 @@ hijos.Node.superConstructor = hijos.Leaf;
 // so write out the equivalent inline.
 hijos.Node.prototype = (function() {
     function F() {}
-    F.prototype = hijos.Leaf.prototype;
+    F.prototype = hijos.Node.superConstructor.prototype;
     return new F();
 }());
 hijos.Node.prototype.constructor = hijos.Node;
@@ -89,7 +89,7 @@ hijos.Node.prototype.destroy = function() {
     for (var i = 0, ilen = children.length; i < ilen; i++) {
         children[i].destroy();
     }
-    hijos.Leaf.prototype.destroy.call(this);
+    hijos.Node.superConstructor.prototype.destroy.call(this);
     // Loosing references to relations may help garbage collection.
     this.childNodes = null;
     this.firstChild = null;
