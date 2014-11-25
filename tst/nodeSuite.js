@@ -17,16 +17,6 @@
             assert.same(false, node.hasChildNodes());
         },
 
-        "test Leaf.prototype is initialized correctly": function() {
-            var node = hijos.Node.prototype;
-            assert.same(null, node.firstChild);
-            assert.same(null, node.lastChild);
-            assert.same(null, node.parentNode);
-            assert.same(null, node.previousSibling);
-            assert.same(null, node.nextSibling);
-            assert.same(false, node.hasChildNodes());
-        },
-
         "test node has required methods": function() {
             var node = new hijos.Node();
             assert.same('function', typeof node.destroy);

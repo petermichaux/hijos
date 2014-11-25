@@ -26,12 +26,6 @@
             assert.same(null, obj.parentNode);
             assert.same(null, obj.previousSibling);
             assert.same(null, obj.nextSibling);
-        },
-
-        "test Leaf.prototype is initialized correctly": function() {
-            assert.same(null, hijos.Leaf.prototype.parentNode);
-            assert.same(null, hijos.Leaf.prototype.previousSibling);
-            assert.same(null, hijos.Leaf.prototype.nextSibling);
         }
 
     });

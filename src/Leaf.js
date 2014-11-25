@@ -78,9 +78,6 @@ hijos.Leaf.prototype.destroy = function() {
     this.nextSibling = null;
 };
 
-// insure prototype object is initialized properly
-hijos.Leaf.call(hijos.Leaf.prototype);
-
 /**
 
 Mixes in the `Leaf` methods into any object. Be sure to call the `hijos.Leaf`

@@ -278,9 +278,6 @@ hijos.Node.prototype.removeChild = function(oldChild) {
     throw new Error('hijos.Node.prototype.removeChild: node not found.');
 };
 
-// insure prototype object is initialized correctly
-hijos.Node.call(hijos.Node.prototype);
-
 /**
 
 Mixes in the Node methods into any object.
